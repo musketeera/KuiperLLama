@@ -11,7 +11,8 @@ __device__ void softmax_gpu(float* __restrict__ x, int size) {
   // find max value (for numerical stability)
   // this should be FLT_MAX, not 0 !!!!
   // otherwise, the softmax may be occur nan when head_dim < 128 threads
-  float max_val = tid < size ? x[tid] : -FLT_MAX;
+  // float max_val = tid < size ? x[tid] : -FLT_MAX;
+  float max_val = tid < size ? x[tid] : -999999.f;
   for (int i = tid + step; i < size; i += step) {
     if (x[i] > max_val) {
       max_val = x[i];
